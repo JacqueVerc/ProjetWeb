@@ -1,0 +1,59 @@
+.nav-link{
+	color: black;
+}
+.nav-link:hover{
+	color: black;
+	text-decoration: underline;
+}
+nav{
+	background-color: aliceblue;
+}
+#titre{
+	text-align: center;
+	font-size:1.5em;
+	text-decoration: underline;
+}
+#colD{
+	background-color: rgba(134, 207, 207, 0.411);
+  	color: rgb(124, 109, 109);
+}
+footer{
+	background-color: rgba(27, 31, 36, 0.733);
+}
+#lien{
+	color: black;
+}
+#lien:hover{
+	color: black;
+}
+#lienD{
+	text-align:right;
+}
+#et{
+	text-align: center;
+	color: black;
+}
+#fond{
+	background-color: lightslategrey;
+}
+#amis{
+	text-align: left;
+}
+#ecrivez{
+	margin-left: 2.8cm;
+	font-size: larger;
+}
+#envoyer{
+	text-align: right;
+	margin-right: 1.5cm;
+}
+#profil{
+	background-color: azure;
+	margin-right: 1cm;
+}
+#pp{
+	margin-left: 0.1cm;
+}
+#connect{
+	margin-left: 3.5cm;
+}
