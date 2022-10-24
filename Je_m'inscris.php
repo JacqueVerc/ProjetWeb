@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -20,20 +24,20 @@
   <body id="fond">
 	<!--Barre de recherche-->
 	<nav class="navbar navbar-expand">
-  	<a class="navbar-brand"><img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="40" height="40" margin-right=1em>  Climb 2gether</a>
+  	<a class="navbar-brand"><img id="logo" src="imgnoir.png" width="40" height="40" margin-right=1em>  Climb 2gether</a>
   	<ul class="navbar-nav mr-auto">
   	  	<li class="nav-item">
-  	  		<a class="nav-link" href="file:///C:/xampp/htdocs/Projet/Site.php">Accueil</a>
+  	  		<a class="nav-link" href="Site.php">Accueil</a>
   	 	</li>
   	  	<li class="nav-item">
-   	  		<a class="nav-link" href="">Je recherche</a>
+   	  		<a class="nav-link" href="Je_recherche.php">Je recherche</a>
   	  	</li>
    	 	<li class="nav-item">
-   	  		<a class="nav-link" href="poster.php">Je poste</a>
+   	  		<a class="nav-link" href="Je_poste.php">Je poste</a>
 		</li>		
 	<?php
 	if(isset($_SESSION["nom"])){
-			echo ' <li class="nav-item"><a href="logout.php">Deconexion</a></li>';
+			echo ' <li class="nav-item"><a class="nav-link" href="logout.php">Deconexion</a></li>';
 		}else echo '<li class="nav-item"><a class="nav-link" href="Je_me_connecte.php">Je me connecte</a></li>'
 	?>
  	 </ul>
@@ -68,10 +72,10 @@
                         <input name="salle" type="text"/><br><br>
                         Quel est votre niveau?
                         <select name="niveau" required>
-                            <option value="debutant">Débutant</option>
-                            <option value="ameliore">Je m'améliore</option>
-                            <option value="comfirme">Comfirmé</option>
-                            <option value="master">Maître du mur</option>
+                            <option value="Débutant">Débutant</option>
+                            <option value="S'améliore">Je m'améliore</option>
+                            <option value="Comfirmé">Comfirmé</option>
+                            <option value="Maître">Maître du mur</option>
                         </select>
 						<br><br>Choississez une photo : <br>
 						<input type="file" name="photo" class="ch"/>
@@ -81,18 +85,18 @@
 					include("connexion.php");
 					if(isset($_POST["M'inscrire"])){
 						$mail=$_POST['mail'];
-						//Besoin de bloquer si le mail est deja dans la BDD//
 						$q=mysqli_query($cn,'SELECT addresse_mail FROM user WHERE addresse_mail="'.$mail.'"')or die(mysql_error()); // on fait un select
-						if (mysqli_fetch_array($q)==FALSE){ // s'il n'existe pas, on ecrit
+						if (mysqli_fetch_array($q)==FALSE){	
 							$nom=$_POST['nom'];
 							$prenom=$_POST['prenom'];
+							$age=$_POST['age'];
 							$mdp1=$_POST['mdp'];
 							$mdp2=$_POST['valmdp'];
 							$salle=$_POST['salle'];
 							$niveau=$_POST['niveau'];
 							if($mdp1==$mdp2){
 								$mdp=md5($mdp1);
-								mysqli_query($cn,"insert into user value ('','$nom','$prenom','$mail','$mdp','$salle','$niveau')");
+								mysqli_query($cn,"insert into user value ('','$nom','$prenom','$age','$mail','$mdp','$salle','$niveau')");
 								
 								echo '<h4>Inscription réussi !</h4>';
 							}else echo 'Les mots de passe ne sont pas identiques';
@@ -108,15 +112,15 @@
                 <br><br>
 			</div>
 			<div id="colD" class="col-md-3"><br><br>
-                <p id="lienD"><a id="lien" href="">Profil</a><img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="50" height="50" margin-right=1em></p>
+                <p id="lienD"><a id="lien" href="Mon_profil.php">Profil</a><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em></p>
 				<br><br>
-				<p id="lienG"><img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="50" height="50" margin-right=1em><a id="lien" href="">Je poste</a></p>
+				<p id="lienG"><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em><a id="lien" href="Je_poste.php">Je poste</a></p>
 				<br><br>
-				<p id="lienD"><a id="lien" href="">Profil</a><img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="50" height="50" margin-right=1em></p>
+				<p id="lienD"><a id="lien" href="Je_recherche.php">Je recherche</a><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em></p>
 				<br><br>
-				<p id="lienG"><img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="50" height="50" margin-right=1em><a id="lien" href="">Annonces</a></p>
+				<p id="lienG"><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em><a id="lien" href="Annonces_&_evenements.php">Annonces</a></p>
 				<p id="et">&</p>
-				<p id="lienD"><a id="lien" href="">Evènements</a><img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="50" height="50" margin-right=1em></p>
+				<p id="lienD"><a id="lien" href="Annonces_&_evenements.php">Evènements</a><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em></p>
 			</div>
 		</div>
 	</div>
@@ -143,7 +147,7 @@
 				</div>
 				<div id="colD" class="col-md-3">
 					<br>
-					<img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="25" height="25" margin-right=1em><a href=""></a><a href="">Instagram</a>
+					<img id="logo" src="imgnoir.png" width="25" height="25" margin-right=1em><a href=""></a><a href="">Instagram</a>
 					<br><br>
 					<i class="fa-brands fa-instagram"></i><a href=""></a><a href="">Discord</a></div> 
 			</div>

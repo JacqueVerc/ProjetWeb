@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -20,20 +24,20 @@
   <body id="fond">
 	<!--Barre de recherche-->
 	<nav class="navbar navbar-expand">
-  	<a class="navbar-brand"><img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="40" height="40" margin-right=1em>  Climb 2gether</a>
+  	<a class="navbar-brand"><img id="logo" src="imgnoir.png" width="40" height="40" margin-right=1em>  Climb 2gether</a>
   	<ul class="navbar-nav mr-auto">
   	  <li class="nav-item">
-  	    <a class="nav-link" href="file:///C:/xampp/htdocs/Projet/Site.php">Accueil</a>
+  	    <a class="nav-link" href="Site.php">Accueil</a>
   	  </li>
   	  <li class="nav-item">
-   	   <a class="nav-link" href="">Je recherche</a>
+   	   <a class="nav-link" href="Je_rechercher.php">Je recherche</a>
   	  </li>
    	 <li class="nav-item">
-   	   <a class="nav-link" href="poster.php">Je poste</a>
+   	   <a class="nav-link" href="Je_poste.php">Je poste</a>
   	  </li>
 		<?php
 	if(isset($_SESSION["nom"])){
-			echo ' <li class="nav-item"><a href="logout.php">Deconexion</a></li>';
+			echo ' <li class="nav-item"><a class="nav-link" href="logout.php">Deconexion</a></li>';
 		}else echo '<li class="nav-item"><a class="nav-link" href="Je_me_connecte.php">Je me connecte</a></li>'
 	?>
  	 </ul>
@@ -56,30 +60,30 @@
 				<div id="profil" class="row">
 					<div class="col-md-2">
 						<br>
-						<p id="pp"><img id="pp" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="90" height="90" margin-right=1em></p>
+						<p id="pp"><img id="pp" src="imgnoir.png" width="90" height="90" margin-right=1em></p>
 					</div>
 					<div class="col-md-10">
 						<hr>
-						Nom:<br>
-						Prenom:<br>
-						Age:<br><br>
-						Adresse mail:<br><br>
-						Salle fréquentée:<br>
-						Niveau:<br><hr>
+						Nom: <?php echo $_SESSION["nom"];	 ?><br>
+						Prenom: <?php echo $_SESSION["prenom"];	 ?><br>
+						Age: <?php echo $_SESSION["age"];	 ?><br><br>
+						Adresse mail: <?php echo $_SESSION["mail"];	 ?><br><br>
+						Salle fréquentée: <?php echo $_SESSION["salle"];	 ?><br>
+						Niveau: <?php echo $_SESSION["niveau"];	 ?><br><hr>
 					</div>
 				</div>
 				<p id="infos"><p id="envoyer"><input type="submit" value="Modifier mes informations" /></p></p>
 			</div>
 			<div id="colD" class="col-md-3"><br><br>
-				<p id="lienD"><a id="lien" href="">Profil</a><img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="50" height="50" margin-right=1em></p>
+				<p id="lienD"><a id="lien" href="Mon_profil.php">Profil</a><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em></p>
 				<br><br>
-				<p id="lienG"><img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="50" height="50" margin-right=1em><a id="lien" href="">Je poste</a></p>
+				<p id="lienG"><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em><a id="lien" href="Je_poste.php">Je poste</a></p>
 				<br><br>
-				<p id="lienD"><a id="lien" href="">Profil</a><img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="50" height="50" margin-right=1em></p>
+				<p id="lienD"><a id="lien" href="Je_recherche.php">Je recherche</a><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em></p>
 				<br><br>
-				<p id="lienG"><img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="50" height="50" margin-right=1em><a id="lien" href="">Annonces</a></p>
+				<p id="lienG"><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em><a id="lien" href="Annonces_&_evenements.php">Annonces</a></p>
 				<p id="et">&</p>
-				<p id="lienD"><a id="lien" href="">Evènements</a><img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="50" height="50" margin-right=1em></p>
+				<p id="lienD"><a id="lien" href="Annonces_&_evenements.php">Evènements</a><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em></p>
 			</div>
 		</div>
 	</div>
@@ -106,7 +110,7 @@
 				</div>
 				<div id="colD" class="col-md-3">
 					<br>
-					<img id="logo" src="C:\Users\33682\Documents\Univ\Dev.Web\Projet_Web\imgnoir.png" width="25" height="25" margin-right=1em><a href=""></a><a href="">Instagram</a>
+					<img id="logo" src="imgnoir.png" width="25" height="25" margin-right=1em><a href=""></a><a href="">Instagram</a>
 					<br><br>
 					<i class="fa-brands fa-instagram"></i><a href=""></a><a href="">Discord</a></div> 
 			</div>

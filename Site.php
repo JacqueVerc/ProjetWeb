@@ -1,8 +1,5 @@
 <?php
 session_start();
-if(isset($_SESSION['mail']) and isset($_SESSION['mdp'])){
-	include('connexion.php');
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -32,14 +29,14 @@ if(isset($_SESSION['mail']) and isset($_SESSION['mdp'])){
   	    <a class="nav-link" href="Site.php">Accueil</a>
   	  </li>
   	  <li class="nav-item">
-   	   <a class="nav-link" href="">Je recherche</a>
+   	   <a class="nav-link" href="Je_recherche.php">Je recherche</a>
   	  </li>
    	 <li class="nav-item">
-   	   <a class="nav-link" href="poster.php">Je poste</a>
+   	   <a class="nav-link" href="Je_poste.php">Je poste</a>
   	  </li>
 		<?php
 	if(isset($_SESSION["nom"])){
-			echo ' <li class="nav-item"><a href="logout.php">Deconexion</a></li>';
+			echo ' <li class="nav-item"><a class="nav-link" href="logout.php">Deconexion</a></li>';
 		}else echo '<li class="nav-item"><a class="nav-link" href="Je_me_connecte.php">Je me connecte</a></li>'
 	?>
  	 </ul>
@@ -60,7 +57,7 @@ if(isset($_SESSION['mail']) and isset($_SESSION['mdp'])){
 				<p id="ecrivez">Postez un message !</p>
 				<div class="row">
 					<div class="col-md-2">
-						<p id="amis"><img src="C:\xampp\htdocs\Projet\imgnoir.png" width="100" height="100" margin-right=1em></p>
+						<p id="amis"><img src="imgnoir.png" width="100" height="100" margin-right=1em></p>
 					</div>
 					<div class="col-md-10">
 						<form action="" method="post">
@@ -80,15 +77,15 @@ if(isset($_SESSION['mail']) and isset($_SESSION['mdp'])){
 					</div>
 				</div>
 			</div>
-			<div id="colD" class="col-md-3"><br><br><p id="lienD"><a id="lien" href="">Profil</a><img id="logo" src="C:\xampp\htdocs\Projet\imgnoir.png" width="50" height="50" margin-right=1em></p>
+			<div id="colD" class="col-md-3"><br><br><p id="lienD"><a id="lien" href="Mon_profil.php">Profil</a><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em></p>
 				<br><br>
-				<img id="logo" src="C:\xampp\htdocs\Projet\imgnoir.png" width="50" height="50" margin-right=1em><a id="lien" href="">Je poste</a>
+				<img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em><a id="lien" href="Je_poste.php">Je poste</a>
 				<br><br>
-				<p id="lienD"><a id="lien" href="">Profil</a><img id="logo" src="C:\xampp\htdocs\Projet\imgnoir.png" width="50" height="50" margin-right=1em></p>
+				<p id="lienD"><a id="lien" href="Je_recherche.php">Je recherche</a><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em></p>
 				<br><br>
-				<img id="logo" src="C:\xampp\htdocs\Projet\imgnoir.png" width="50" height="50" margin-right=1em><a id="lien" href="">Annonces</a>
+				<img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em><a id="lien" href="Annonces_&_evenements.php">Annonces</a>
 				<p id="et">&</p>
-				<p id="lienD"><a id="lien" href="">Evènements</a><img id="logo" src="C:\xampp\htdocs\Projet\imgnoir.png" width="50" height="50" margin-right=1em></p>
+				<p id="lienD"><a id="lien" href="Annonces_&_evenements.php">Evènements</a><img id="logo" src="imgnoir.png" width="50" height="50" margin-right=1em></p>
 			</div>
 		</div>
 	</div>
@@ -108,14 +105,14 @@ if(isset($_SESSION['mail']) and isset($_SESSION['mdp'])){
 				<div class="col-md-5">
 					<h4>Haut de page</h4>
 					<l>
-						<li><a id="lien" href="utilisateur.php">Je m'identifie</a></li>
-						<li><a id="lien" href="poster.php">Je poste</a></li>
-						<li><a id="lien" href="">Je recherche</a></li>
+						<li><a id="lien" href="Je_me_connecte.php">Je m'identifie</a></li>
+						<li><a id="lien" href="Je_poste.php">Je poste</a></li>
+						<li><a id="lien" href="Je_recherche.php">Je recherche</a></li>
 					</l>
 				</div>
 				<div id="colD" class="col-md-3">
 					<br>
-					<img id="logo" src="C:\xampp\htdocs\Projet\imgnoir.png" width="25" height="25" margin-right=1em><a href=""></a><a href="">Instagram</a>
+					<img id="logo" src="imgnoir.png" width="25" height="25" margin-right=1em><a href=""></a><a href="">Instagram</a>
 					<br><br>
 					<i class="fa-brands fa-instagram"></i><a href=""></a><a href="">Discord</a></div> 
 			</div>
