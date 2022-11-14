@@ -1,20 +1,25 @@
+body{
+    font-family: 'Roboto', sans-serif;
+}
 .nav-link{
 	color: black;
+    font-family: 'Roboto', sans-serif;
 }
 .nav-link:hover{
 	color: black;
 	text-decoration: underline;
 }
 nav{
-	background-color: aliceblue;
+	background-color:aliceblue;
+    font-family: 'Roboto', sans-serif;
 }
 #titre{
 	text-align: center;
-	font-size:1.5em;
-	text-decoration: underline;
+	font-size:3em;
+    font-family: 'Roboto', sans-serif;
 }
 #colD{
-	background-color: rgba(134, 207, 207, 0.411);
+	background-color: rgb(0, 0, 0);
   	color: rgb(124, 109, 109);
 }
 footer{
@@ -22,19 +27,44 @@ footer{
 }
 #lien{
 	color: black;
+    font-family: 'Roboto', sans-serif;
 }
 #lien:hover{
 	color: black;
 }
 #lienD{
 	text-align:right;
+    color: aliceblue;
+    font-family: 'Roboto', sans-serif;
+}
+#lienG{
+    color:aliceblue;
+    font-family: 'Roboto', sans-serif;
 }
 #et{
 	text-align: center;
-	color: black;
+	color:aliceblue;
+    font-family: 'Roboto', sans-serif;
 }
 #fond{
-	background-color: lightslategrey;
+    background-image: url("images/Silhouette_d\'alpiniste.webp");
+    background-attachment:fixed;
+	background-color: rgb(0, 0, 0);
+}
+#fond2{
+    background-image: url("images/IMG-4626\ \(2\).jpg");
+    background-attachment:fixed;
+	background-color: rgb(0, 0, 0);
+}
+#fond3{
+    background-image: url("images/IMG-4626\ \(3\).jpg");
+    background-attachment:fixed;
+	background-color: rgb(0, 0, 0);
+}
+#fond4{
+    background-image: url("images/IMG-4626\ \(1\).jpg");
+    background-attachment:fixed;
+	background-color: rgb(0, 0, 0);
 }
 #amis{
 	text-align: left;
@@ -42,13 +72,19 @@ footer{
 #ecrivez{
 	margin-left: 2.8cm;
 	font-size: larger;
+    font-family: 'Roboto', sans-serif;
+}
+#mot1{
+	text-align: center;
+	font-size: larger;
+    font-family: 'Roboto', sans-serif;
 }
 #envoyer{
 	text-align: right;
 	margin-right: 1.5cm;
 }
 #profil{
-	background-color: azure;
+	background-color: rgba(127, 129, 129, 0.401);
 	margin-right: 1cm;
 }
 #pp{
@@ -56,4 +92,19 @@ footer{
 }
 #connect{
 	margin-left: 3.5cm;
+}
+p{
+    color: aliceblue;
+    font-family: 'Roboto', sans-serif;
+}
+#com{
+    color: aliceblue;
+    font-family: 'Roboto', sans-serif;
+}
+#liste{
+    color: aliceblue;
+}
+#mini-titre{
+	font-size: 1.5em;
+	text-decoration: underline;
 }

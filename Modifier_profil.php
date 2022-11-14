@@ -27,7 +27,7 @@ session_start();
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
 
-  <body id="fond2">
+  <body id="fond4">
 	<!--Barre de recherche-->
 	<nav id="Haut" class="navbar navbar-expand">
   	<a class="navbar-brand"><img id="logo" src="images/imgnoir.png" width="40" height="40" margin-right=1em>  Climb 2gether</a>
@@ -53,26 +53,63 @@ session_start();
    	 </a>
  	 </div>
 	</nav> 
-	
+	<?php $mail = $_SESSION['mail']; ?>
 	<!--Corps du site-->
 	<div id="mid" class="container">
 		<div class="row">
-			<div id="mid" class="col-md-9"><br><br><br><p id="mot1">Voici les postes le plus récents</p><br>
-			<div class="row">
-			<?php 
-				include("connexion.php");
-					$res=mysqli_query($cn,"SELECT * from user,comments where user.id_user=comments.id_user order by id_com desc");
-					while($data=mysqli_fetch_assoc($res)){
-						echo '<div id="com" class="col-md-2">
-							<img src="images/'.$data['id_user'].'jpg" class="photo" width="50px" height="50px">';
-						echo $data['Nom'];
-						echo '<br>'.$data['Prenom'].'</div>';
-						echo '<div id="com" class="col-md-10">Posté le : '.$data['date'];
-						echo ' à '.$data['heure'];
-						echo '<br>'.$data['contenu'].'</div>';
-					}
-					?>
-				</div>
+			<div class="col-md-9">
+				<br>
+				<br>
+				<br>
+				<br>
+				<br><h4 id="com">Modifier mes informations</h4>
+				<div id="profil" class="row">
+					<div class="col-md-2">
+						<br>
+					</div>
+					<div id="com" class="col-md-10"><br><br>
+						<form method="post">
+                            <p id="connect">
+                            <?php
+                                if(!empty($_POST)){
+                                    if(isset($_SESSION['nom'])){
+                                        include("connexion.php");
+                                        if(isset($_POST["form1"])){
+                                            if($_POST['mail']!=$mail){
+                                                $id=$_SESSION['id_user'];
+                                                $mail=$_POST['mail'];
+                                                mysqli_query($cn,"UPDATE user SET addresse_mail='$mail' where id_user=$id ");
+                                                echo 'Adresse mail modifiée<br><br>';
+                                            }
+                                        }
+                                    }
+                                }
+                                ?>
+                                Adresse mail:<br>
+                                <input type="email" name="mail" value="<?php echo $mail ?>"/><br><br>
+                                <input class="btn btn-outline-light" type="submit" name="form1" value="modifier" />
+                            </p>
+                        </form>
+                        <form method="post" >
+                            <p id="connect"><br>
+                            <?php
+                            if(isset($_POST["form2"])){
+                                            
+                            }
+                            ?>
+                                Votre mot de passe:<br>
+                                <input name="amdp" type="password" required/><br><br>
+                                
+                                Nouveau mot de passe:<br>
+                                <input name="mdp" type="password" required/><br><br>
+
+                                Comfirmer le mot de passe:<br>
+                                <input name="mdp" type="password" required/><br><br>
+                                <input class="btn btn-outline-light" type="submit" name="form2" value="Modifier" />
+                            </p> 
+                        </form><br>
+					</div>
+				</div><br><br>
 			</div>
 			<div id="colD" class="col-md-3"><br><br>
                 <p id="lienD"><?php
@@ -115,10 +152,10 @@ session_start();
 					</l>
 				</div>
 				<div id="colD" class="col-md-3">
-				<br>
+					<br>
 					<img id="logo" src="images/Instagram_icon.png.webp" width="23" height="23" margin-right=1em><a href=""></a><a href="https://www.instagram.com/climb_2gether/">  Instagram</a>
 					<br><br>
-					<img id="logo" src="images/Logo_discord.png" width="25" height="25" margin-right=1em><a href=""></a><a href=""> Discord</a></div> 
+					<img id="logo" src="images/Logo_discord.png" width="25" height="25" margin-right=1em><a href=""></a><a href=""> Discord</a></div>  
 			</div>
 		</div>
 	</footer>
