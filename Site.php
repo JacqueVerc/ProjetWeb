@@ -6,6 +6,8 @@ session_start();
 
   <head>
   	<link rel="stylesheet" href="site.css">
+	  <link rel="stylesheet" href="Poste.css">
+
     <!-- Meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -25,7 +27,7 @@ session_start();
   <body id="fond">
 	<!--Barre de recherche-->
 	<nav id="Haut" class="navbar navbar-expand">
-  	<a class="navbar-brand"><img id="logo" src="images/imgnoir.png" width="40" height="40" margin-right=1em>  Climb 2gether</a>
+  	<a class="navbar-brand" href="Site.php" id="lien"><img id="logo" src="images/imgnoir.png" width="40" height="40" margin-right=1em>  Climb 2gether</a>
   	<ul class="navbar-nav mr-auto">
   	  <li class="nav-item">
   	    <a class="nav-link" href="Site.php">Accueil</a>
@@ -36,16 +38,16 @@ session_start();
    	 <li class="nav-item">
    	   <a class="nav-link" href="Je_poste.php">Je poste</a>
   	  </li>
-		<?php
-	if(isset($_SESSION["nom"])){
-			echo ' <li class="nav-item"><a class="nav-link" href="logout.php">Déconnexion</a></li>';
-		}else echo '<li class="nav-item"><a class="nav-link" href="Je_me_connecte.php">Je me connecte</a></li>'
-	?>
+		
  	 </ul>
  	 <div>
- 	 	Messages
-   	 <a href="Mes_messages.php" class="btn btn-outline-dark"><i class="large material-icons">drafts</i>
-   	 </a>
+ 	 	
+		<?php
+	if(isset($_SESSION["nom"])){
+			echo ' <a class="nav-link" href="logout.php">Déconnexion <button class="btn"><i class="medium material-icons">logout</i></button></a>';
+		}else echo '<a class="nav-link" href="Je_me_connecte.php">Connexion<button class="btn"><i class="medium material-icons">login</i></button></a>'
+	?>
+   	 
  	 </div>
 	</nav> 
 	
@@ -68,39 +70,95 @@ session_start();
 							<p id="envoyer"><input type="submit" name="Submit" value="Poster" /></p>
 						</form>
 						<?php
+						//Poster des messages//
 						include("connexion.php");
-						if(isset($_POST["Submit"])){
+						if(isset($_POST["Submit"]) && isset($_SESSION['nom'])){
 							$id=$_SESSION["id_user"];
 							$msg=$_POST["postemsg"];
 							$date=date("Y-m-d");
 							$heure=date("H:i");
 							mysqli_query($cn,"insert into comments values (NULL,'$msg','$date','$heure','$id')");
+						}elseif(isset($_POST["Submit"])){
+							echo '<p id=mini-titre">Connectez vous pour poster un message !<p>';
 						}
 						?><p id="mini-titre">Voici les 5 derniers postes :</p>
 					</div>
 					<?php 
+					//suppression des messages//
+					if(isset($_POST['supp_com'])){
+						$id=$_POST['id_com'];
+						mysqli_query($cn,"DELETE FROM comments WHERE id_com='$id'");
+					}
+					//Récupération des messages//
 					$res=mysqli_query($cn,"SELECT * from user,comments where user.id_user=comments.id_user order by id_com desc limit 5");
 					while($data=mysqli_fetch_assoc($res)){
-						echo '<div id="com" class="col-md-2"><br>
-							<img src="images/'.$data['id_user'].'jpg" class="photo" width="50px" height="50px">';
+						echo '<div id="com" class="col-md-2"><br>';
+							
 						echo $data['Nom'];
-						echo '<br>'.$data['Prenom'].'</div>';
+						echo '<br>'.$data['Prenom'].'<hr>'.$data['Niveau'].'</div>';
 						echo '<div id="com" class="col-md-10"><br>Posté le : '.$data['date'];
 						echo ' à '.$data['heure'];
 						echo '<br>'.$data['contenu'];
+						echo '<p id="envoyer">Fréquente '.$data['Salle'].'<p>';
+
+						//Affichage des boutons//
 						if(isset($_SESSION['nom'])){
 							if(($_SESSION['id_user'])==($data['id_user'])){
-								echo '<p id="envoyer"><input type="submit" class="btn btn-dark" name="Modif" value="Modifier" />   
-								<input type="submit" class="btn btn-secondary" name="Supprimer" value="Supprimer"></input></p>';
+								echo '<form method="post"><input type="hidden" name="id_com" value="'.$data['id_com'].'"></input>';
+								echo '<p id="infos"><p id="envoyer"><a class="btn btn-outline-light"  href="Modifier_msg.php?id='.$data['id_com'].'">Modifier</a>   
+								<input type="submit" class="btn btn-secondary" name="supp_com" value="Supprimer"></input>
+								
+								</p><p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil</a></p></form>' ;
 							}
-							else {
-								echo '<p id="envoyer"><button class="btn btn-dark">Contacter</button></p>';
-							}
+							elseif($_SESSION['id_user']==1){
+								echo '<form method="post"><p id="envoyer">
+								<input type="hidden" name="id_com" value="'.$data['id_com'].'"></input>
+								<input type="submit" class="btn btn-secondary" name="supp_com" value="Supprimer"></input>
+								<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil</a></p>
+								</p></form>';
+								}
+							
 						}
 						echo '</div>';
 					}
 					?><br>
 				</div><hr>
+				<p id="mini-titre">Annonces & Evènements:</p>
+				<div>
+				<?php
+					//Suppression des annonces//
+					if(isset($_SESSION['id_user']) && $_SESSION['id_user']==1){
+						if(isset($_POST['Supprimer'])){
+							$id=$_POST['id_an'];
+							mysqli_query($cn,"DELETE FROM annonces WHERE id_an='$id' ");
+						}
+					}
+					//Affichage des annonces//
+					$res=mysqli_query($cn,"SELECT * FROM annonces where id_user=1 order by id_an DESC");
+					echo '<ul id="liste">';
+					while($data=mysqli_fetch_assoc($res)){
+						if($data['type']=='Annonce'){
+							echo '<br><p id=annonces>'.$data['type'].':';
+							echo '<li>'.$data['contenu'].'<p><br>';
+						}
+						else{
+							echo '<br><p id=évènements>'.$data['type'].':';
+							echo '<li>'.$data['contenu'].'<p><br>';
+						}
+						if(isset($_SESSION['nom'])){
+							if($_SESSION['id_user']==1){
+								echo '<form method="post" id="envoyer">
+									<button class="btn btn-dark" type"submit" name="Supprimer" value="Supprimer">
+										<i class="material-icons">delete</i>
+									</button>
+									<input type="hidden" name="id_an" value="'.$data['id_an'].'"></input>
+								</form></p></li>';	
+							}
+						}
+					}
+				?>
+				<br><br>
+			</div>
 			</div>
 			<div id="colD" class="col-md-3"><br><br>
 				<p id="lienD"><?php

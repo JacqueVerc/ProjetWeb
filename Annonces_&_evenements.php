@@ -6,8 +6,9 @@ session_start();
 <html lang="fr">
 
   <head>
-  	<link rel="stylesheet" href="Site2.css">
+  	<link rel="stylesheet" href="Poste.css">
 	  <link rel="stylesheet" href="site.css">
+	  <link rel="stylesheet" href="Select.css">
     <!-- Meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -42,16 +43,14 @@ session_start();
    	 <li class="nav-item">
    	   <a class="nav-link" href="Je_poste.php">Je poste</a>
   	  </li>
-		<?php
-	if(isset($_SESSION["nom"])){
-			echo ' <li class="nav-item"><a class="nav-link" href="logout.php">Déconnexion</a></li>';
-		}else echo '<li class="nav-item"><a class="nav-link" href="Je_me_connecte.php">Je me connecte</a></li>'
-	?>
+		
  	 </ul>
  	 <div>
- 	 	Messages
-   	 <a href="Mes_messages.php" class="btn btn-outline-dark"><i class="large material-icons">drafts</i>
-   	 </a>
+	  <?php
+	if(isset($_SESSION["nom"])){
+			echo ' <a class="nav-link" href="logout.php">Déconnexion <button class="btn"><i class="medium material-icons">logout</i></button></a>';
+		}else echo '<a class="nav-link" href="Je_me_connecte.php">Connexion<button class="btn"><i class="medium material-icons">login</i></button></a>'
+	?>
  	 </div>
 	</nav> 
 	
@@ -59,14 +58,48 @@ session_start();
 	<div id="mid" class="container">
 		<div class="row">
 			<div id="mid" class="col-md-9"><br><br>
-			<form>
-    			<div class="group">      
-      				<input type="text" required>
-      				<span class="highlight"></span>
-      				<span class="bar"></span>
-      				<label>Ajouter une annonce</label>
-    			</div>
-			</form>
+			
+			<?php
+				include("connexion.php");
+				if(isset($_SESSION['id_user']) && $_SESSION['id_user']==1){
+					echo '<form method="post">
+    					<div class="group">      
+							<input id="custom" type="text" name="annonce" required>
+							<span class="highlight"></span>
+							<span class="bar"></span>
+							<label id=#la>Ajouter une annonce</label>
+							<p id="select"><select name="type">
+								<option  value="Annonce">-- Annonce --</option>
+								<option  value="Evênement">-- Evênement --</option></select></p>
+    					</div>
+						</form>';
+					if(isset($_POST['annonce'])){
+						$contenu=$_POST['annonce'];
+						$id=$_SESSION['id_user'];
+						$type=$_POST['type'];
+						mysqli_query($cn,"INSERT INTO annonces VALUE ('', '$contenu', '$type','$id') ");
+					}
+					if(isset($_POST['Supprimer'])){
+						$id=$_POST['id_an'];
+						mysqli_query($cn,"DELETE FROM annonces WHERE id_an='$id' ");
+					}
+				}
+				$res=mysqli_query($cn,"SELECT * FROM annonces where id_user=1 order by id_an DESC");
+				echo '<ul id="liste">';
+				while($data=mysqli_fetch_assoc($res)){
+					echo $data['type'].':';
+					echo '<li>'.$data['contenu'].'<br><br><br>';
+					if(isset($_SESSION['id_user']) && $_SESSION['id_user']==1){
+						echo '<form method="post" id="envoyer">
+							<button class="btn btn-dark" type"submit" name="Supprimer" value="Supprimer">
+								<i class="material-icons">delete</i>
+							</button>
+							<input type="hidden" name="id_an" value="'.$data['id_an'].'"></input>
+						</form></p></li>';	
+					}
+				}
+
+			?>
   			</div>
 		
 			<div id="colD" class="col-md-3"><br><br>

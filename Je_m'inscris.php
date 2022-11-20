@@ -41,16 +41,14 @@ session_start();
    	 	<li class="nav-item">
    	  		<a class="nav-link" href="Je_poste.php">Je poste</a>
 		</li>		
-	<?php
-	if(isset($_SESSION["nom"])){
-			echo ' <li class="nav-item"><a class="nav-link" href="logout.php">Déconnexion</a></li>';
-		}else echo '<li class="nav-item"><a class="nav-link" href="Je_me_connecte.php">Je me connecte</a></li>'
-	?>
+	
  	 </ul>
  	 <div>
- 	 	Messages
-   	 <a href="Mes_messages.php" class="btn btn-outline-dark"><i class="large material-icons">drafts</i>
-   	 </a>
+	  <?php
+	if(isset($_SESSION["nom"])){
+			echo ' <a class="nav-link" href="logout.php">Déconnexion <button class="btn"><i class="medium material-icons">logout</i></button></a>';
+		}else echo '<a class="nav-link" href="Je_me_connecte.php">Connexion<button class="btn"><i class="medium material-icons">login</i></button></a>'
+	?>
  	 </div>
 	</nav> 
 	
@@ -79,19 +77,18 @@ session_start();
                         Quel est votre niveau?
                         <select name="niveau" required>
                             <option value="Débutant">Débutant</option>
-                            <option value="S'améliore">Je m'améliore</option>
-                            <option value="Comfirmé">Comfirmé</option>
+                            <option value="S_améliore">Je m'améliore</option>
+                            <option value="Confirmé">Confirmé</option>
                             <option value="Maître du mur">Maître du mur</option>
                         </select>
-						<br><br>Choississez un avatar : <br>
-						<input type="file" name="avatar" class="ch"/>
+						
                         <p id="envoyer"><input type="submit" name="M'inscrire" value="M'inscrire" />
                     </p><hr>
 					<?php
 					include("connexion.php");
 					if(isset($_POST["M'inscrire"])){
 						$mail=$_POST['mail'];
-						$q=mysqli_query($cn,'SELECT addresse_mail FROM user WHERE addresse_mail="'.$mail.'"')or die(mysql_error()); // on fait un select
+						$q=mysqli_query($cn,'SELECT addresse_mail FROM user WHERE addresse_mail="'.$mail.'"')or die(mysql_error());
 						if (mysqli_fetch_array($q)==FALSE){	
 							$nom=$_POST['nom'];
 							$prenom=$_POST['prenom'];
@@ -105,9 +102,7 @@ session_start();
 								mysqli_query($cn,"insert into user value ('','$nom','$prenom','$age','$mail','$mdp','$salle','$niveau')");
 								
 								$id=mysqli_insert_id($cn);
-								$photo="$id.jpg";
-
-								move_uploaded_file($_POST['photo'], "img_site/$photo");
+								
 								echo '<h4>Inscription réussi !</h4>';
 							}else echo 'Les mots de passe ne sont pas identiques';
 							

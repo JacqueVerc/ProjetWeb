@@ -41,16 +41,13 @@ session_start();
    	 <li class="nav-item">
    	   <a class="nav-link" href="Je_poste.php">Je poste</a>
   	  </li>
-		<?php
-	if(isset($_SESSION["nom"])){
-			echo ' <li class="nav-item"><a class="nav-link" href="logout.php">Déconnexion</a></li>';
-		}else echo '<li class="nav-item"><a class="nav-link" href="Je_me_connecte.php">Je me connecte</a></li>'
-	?>
  	 </ul>
  	 <div>
- 	 	Messages
-   	 <a href="Mes_messages.php" class="btn btn-outline-dark"><i class="large material-icons">drafts</i>
-   	 </a>
+	  <?php
+	if(isset($_SESSION["nom"])){
+			echo ' <a class="nav-link" href="logout.php">Déconnexion <button class="btn"><i class="medium material-icons">logout</i></button></a>';
+		}else echo '<a class="nav-link" href="Je_me_connecte.php">Connexion<button class="btn"><i class="medium material-icons">login</i></button></a>'
+	?>
  	 </div>
 	</nav> 
 	<?php $mail = $_SESSION['mail']; ?>
@@ -78,8 +75,8 @@ session_start();
                                             if($_POST['mail']!=$mail){
                                                 $id=$_SESSION['id_user'];
                                                 $mail=$_POST['mail'];
-                                                mysqli_query($cn,"UPDATE user SET addresse_mail='$mail' where id_user=$id ");
-                                                echo 'Adresse mail modifiée<br><br>';
+                                                mysqli_query($cn,"UPDATE user SET addresse_mail='$mail' where id_user='$id' ");
+                                                echo '<strong>Adresse mail modifiée</strong><br><br>';
                                             }
                                         }
                                     }
@@ -92,11 +89,7 @@ session_start();
                         </form>
                         <form method="post" >
                             <p id="connect"><br>
-                            <?php
-                            if(isset($_POST["form2"])){
-                                            
-                            }
-                            ?>
+                            
                                 Votre mot de passe:<br>
                                 <input name="amdp" type="password" required/><br><br>
                                 
@@ -104,10 +97,35 @@ session_start();
                                 <input name="mdp" type="password" required/><br><br>
 
                                 Comfirmer le mot de passe:<br>
-                                <input name="mdp" type="password" required/><br><br>
+                                <input name="cmdp" type="password" required/><br><br>
                                 <input class="btn btn-outline-light" type="submit" name="form2" value="Modifier" />
-                            </p> 
-                        </form><br>
+                            <?php
+                            if(!empty($_POST)){
+                                if(isset($_SESSION['nom'])){
+                                    if(isset($_POST["form2"])){
+                                        if(md5($_POST['amdp'])==$_SESSION['mdp'] && $_POST['mdp']==$_POST['cmdp']){
+                                            $id=$_SESSION['id_user'];
+                                            $mdp=md5($_POST['mdp']);
+                                            mysqli_query($cn,"UPDATE user SET Mdp='$mdp' WHERE id_user=$id");
+                                            echo '<strong>Mot de passe modifié</strong><br>';
+                                        }elseif($_POST['amdp']!=$_SESSION['mdp']){
+                                            echo '<strong>Mauvais mot de passe</strong><br>  ';
+                                        }elseif($_POST['mdp']!=$_POST['cmdp']){
+                                            echo '<strong>Nouveau mot de passe et confirmation non identiques</strong><br>';
+                                        }
+                                    }
+                                    if(isset($_POST['supp_cpt'])){
+                                        $id=$_SESSION['id_user'];
+                                        mysqli_query($cn,"DELETE FROM user WHERE id_user='$id'");
+                                        include("logout.php");
+                                    }
+                                }
+                                             
+                            }
+                            ?>
+                            </p></form><form method="post"> 
+                            <p id="envoyer"><input class="btn btn-outline-light" type="submit" name="supp_cpt" value="Supprimer mon compte" /><p></form>
+                        <br>
 					</div>
 				</div><br><br>
 			</div>

@@ -37,16 +37,13 @@ session_start();
    	 <li class="nav-item">
    	   <a class="nav-link" href="Je_poste.php">Je poste</a>
   	  </li>
-		<?php
-	if(isset($_SESSION["nom"])){
-			echo ' <li class="nav-item"><a class="nav-link" href="logout.php">Déconnexion</a></li>';
-		}else echo '<li class="nav-item"><a class="nav-link" href="Je_me_connecte.php">Je me connecte</a></li>'
-	?>
  	 </ul>
- 	 <div>
- 	 	Messages
-   	 <a href="Mes_messages.php" class="btn btn-outline-dark"><i class="large material-icons">drafts</i>
-   	 </a>
+	 <div>
+	  <?php
+	if(isset($_SESSION["nom"])){
+			echo ' <a class="nav-link" href="logout.php">Déconnexion <button class="btn"><i class="medium material-icons">logout</i></button></a>';
+		}else echo '<a class="nav-link" href="Je_me_connecte.php">Connexion<button class="btn"><i class="medium material-icons">login</i></button></a>'
+	?>
  	 </div>
 	</nav> 
 	
@@ -56,7 +53,7 @@ session_start();
 			<div id="mid" class="col-md-9">
 				<?php if(!isset($_SESSION["nom"])){
 					echo "<br><br><br>
-					<p id='mot1'>Vous n'êtes pas connectés...<br><br>Connectez-vous pour postez votre message!</p>";
+					<p id='mot1'>Vous n'êtes pas connecté...<br><br>Connectez-vous pour poster votre message!</p>";
 				}
 				?>
 				<br><br>
@@ -80,10 +77,16 @@ session_start();
 							$heure=date("H:i");
 							mysqli_query($cn,"insert into comments values (NULL,'$msg','$date','$heure','$id')");
 						}
+						
 						?><p id="mini-titre">Mes messages :</p><br>
 					</div>
 					<?php 
 					if(isset($_SESSION["nom"])){
+						$nb=0;
+						if(isset($_POST['supp_com'])){
+							$id=$_POST['id_com'];
+							mysqli_query($cn,"DELETE FROM comments WHERE id_com='$id'");
+						}
 						$res=mysqli_query($cn,"SELECT * from user,comments where user.id_user=comments.id_user order by id_com desc ");
 						while($data=mysqli_fetch_assoc($res)){
 							if($_SESSION['id_user']==$data['id_user']){
@@ -93,19 +96,19 @@ session_start();
 							echo '<br>'.$data['Prenom'].'</div>';
 							echo '<div id="com" class="col-md-10">Posté le : '.$data['date'];
 							echo ' à '.$data['heure'];
-							echo '<form><input type="hidden" name="id_com" value="'.$data['id_com'].'"></input>';
-							echo '<br>'.$data['contenu'].'<p id="envoyer"><input type="submit" class="btn btn-dark" name="modif" value="Modifier" />   
+							echo '<form method="post"><input type="hidden" name="id_com" value="'.$data['id_com'].'"></input>';
+							echo '<br>'.$data['contenu'].'<p id="envoyer"><a class="btn btn-outline-light"  href="Modifier_msg.php?id='.$data['id_com'].'">Modifier</a>   
 								<input type="submit" class="btn btn-secondary" name="supp_com" value="Supprimer"></input>
-								</p></form></div>' ;
+								<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil</a></p></p></form></div>' ;
+							$nb=$nb+1;	
+							}
+							if($nb==0){
+								echo "<p id='mini-titre'>Vous n'avez posté aucun message</p>";
+								$nb=$nb+1;
 							}
 						}
-						if(isset($_POST['supp_com'])){
-							$id_com=$id_com;
-							$id=$_SESSION['id_user'];
-							echo '<h1>Bonjour</h1>';
-							
-							mysqli_query($cn,"DELETE FROM comments where user_id= $id and id_com= $id_com");
-						}
+					}else{
+						echo "<p id='mini-titre'>Vous n'avez posté aucun message</p>";
 					}
 					?><br>
 				</div><hr>

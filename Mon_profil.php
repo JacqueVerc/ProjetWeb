@@ -41,16 +41,13 @@ session_start();
    	 <li class="nav-item">
    	   <a class="nav-link" href="Je_poste.php">Je poste</a>
   	  </li>
-		<?php
-	if(isset($_SESSION["nom"])){
-			echo ' <li class="nav-item"><a class="nav-link" href="logout.php">Déconnexion</a></li>';
-		}else echo '<li class="nav-item"><a class="nav-link" href="Je_me_connecte.php">Je me connecte</a></li>'
-	?>
  	 </ul>
  	 <div>
- 	 	Messages
-   	 <a href="Mes_messages.php" class="btn btn-outline-dark"><i class="large material-icons">drafts</i>
-   	 </a>
+	  <?php
+	if(isset($_SESSION["nom"])){
+			echo ' <a class="nav-link" href="logout.php">Déconnexion <button class="btn"><i class="medium material-icons">logout</i></button></a>';
+		}else echo '<a class="nav-link" href="Je_me_connecte.php">Connexion<button class="btn"><i class="medium material-icons">login</i></button></a>'
+	?>
  	 </div>
 	</nav> 
 	
@@ -77,7 +74,7 @@ session_start();
 						Niveau: <?php echo $_SESSION["niveau"];	 ?><br><hr>
 					</div>
 				</div>
-				<p id="infos"><p id="envoyer"><input class="btn btn-outline-light" type="submit" name="Submit" value="Modifier mes informations" /></p><br>
+				<p id="infos"><p id="envoyer"><a class="btn btn-outline-light"  href="Modifier_profil.php" >Modifier mes informations</a></p><br>
 				<?php 
 					if(isset($_REQUEST["Submit"])){
 						echo 'bouton appuyé';

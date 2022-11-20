@@ -1,12 +1,13 @@
-<?php 
+<?php
 session_start();
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
   <head>
   	<link rel="stylesheet" href="site.css">
+	  <link rel="stylesheet" href="Poste.css">
+
     <!-- Meta -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -15,10 +16,6 @@ session_start();
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" />
     <link rel="stylesheet" href="../css/styles.css"/>
-    <!-- JavaScripts -->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 	<!--Police-->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +24,7 @@ session_start();
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
 
-  <body id="fond4">
+  <body id="fond">
 	<!--Barre de recherche-->
 	<nav id="Haut" class="navbar navbar-expand">
   	<a class="navbar-brand"><img id="logo" src="images/imgnoir.png" width="40" height="40" margin-right=1em>  Climb 2gether</a>
@@ -54,46 +51,84 @@ session_start();
 	<!--Corps du site-->
 	<div id="mid" class="container">
 		<div class="row">
-			<div id="mid" class="col-md-9">
-                <br><br><br>
-                <h4>Je me connecte</h4>
-				<form id="profil" method="post" action="Je_me_connecte.php">
-                    <p id="connect"><br>
-                        Mail:<br>
-                        <input name="mail" type="email" required/><br><br>
-                        Mot de passe:<br>
-                        <input name="mdp" type="password" required/><br>
-                        <p id="envoyer"><input type="submit" name="submit"/></p>
-                    </p><hr>
-					<?php
-					include("connexion.php");
-					if(isset($_POST["submit"])){
-						$mail=$_POST['mail'];
-						$mdp=md5($_POST['mdp']);
-						$res=mysqli_query($cn,'SELECT addresse_mail,Mdp FROM user WHERE addresse_mail="'.$mail.'" and Mdp="'.$mdp.'"');
-						if (mysqli_fetch_array($res)==FALSE){ echo "Mot de passe ou email incorrects";}
-						else{
-							$q=mysqli_query($cn,'SELECT * FROM user WHERE addresse_mail="'.$mail.'" and Mdp="'.$mdp.'"');
-							$data=mysqli_fetch_assoc($q);
-							$_SESSION['id_user']=$data['id_user'];
-							$_SESSION['nom']=$data['Nom'];
-							$_SESSION['prenom']=$data['Prenom'];
-							$_SESSION['age']=$data['Age'];
-							$_SESSION['mail']=$data['addresse_mail'];
-							$_SESSION['mdp']=$data['Mdp'];
-							$_SESSION["salle"]=$data['Salle'];
-							$_SESSION['niveau']=$data['Niveau'];
-							header("location:Site.php");	
-						}
-					}
-					?>
-                </form>
-                <h5>Pas de compte?<a href="Je_m'inscris.php">  Inscrivez-vous !</a></h5>
-			</div>
+			<div id="mid" class="col-md-9"><p id="mini-titre"><br>Réponses au commentaire :<hr>
+				<div id="msg" class="row">
+			<?php 
+				include "connexion.php";
+				$id_com=$_GET['id'];
+				$res=mysqli_query($cn,"SELECT * from user,comments where comments.id_com='$id_com' AND user.id_user=comments.id_user");
+				$data=mysqli_fetch_assoc($res);
+				echo '<div id="com" class="col-md-2"><br>';					
+				echo $data['Nom'];
+				echo '<br>'.$data['Prenom'].'<hr>'.$data['Niveau'].'</div>';
+				echo '<div id="com" class="col-md-10"><br>Posté le : '.$data['date'];
+				echo ' à '.$data['heure'];
+				echo '<br>'.$data['contenu'];
+				echo '<p id="envoyer">Fréquente '.$data['Salle'].'<p></div>';
+			?></div><hr>
 
-            <!--Colonne de droite-->
+			<div class="col-md-2"></div>
+			<div class="col-md-10">
+			<?php
+				include("connexion.php");
+				if(isset($_SESSION['id_user'])){
+					echo '<form method="post">
+    					<div class="group">      
+							<input id="custom" type="text" name="reponse" required>
+							<span class="highlight"></span>
+							<span class="bar"></span>
+							<label id=#la>Répondre dans le fil</label>
+							
+    					</div>
+						</form>';}
+				if(isset($_POST['reponse'])){
+					$contenu=$_POST['reponse'];
+					$id=$_SESSION["id_user"];
+					$date=date("Y-m-d");
+					$heure=date("H:i");
+					mysqli_query($cn,"insert into rep values (NULL,'$contenu','$date','$heure','$id','$id_com')");
+				}
+				if(isset($_POST['supp_rep'])){
+					$id_rep=$_POST['id_rep'];
+					mysqli_query($cn,"DELETE FROM rep WHERE id_rep='$id_rep'");
+				}
+				$res=mysqli_query($cn,"SELECT * from rep,user where rep.id_com='$id_com' AND rep.id_user=user.id_user order by id_rep DESC");
+				while($data=mysqli_fetch_assoc($res)){
+					echo '<div class="row">';	
+					echo '<div id="com" class="col-md-2"><br>';						
+					echo $data['Nom'];
+					echo '<br>'.$data['Prenom'].'<hr>'.$data['Niveau'].'</div>';
+					echo '<div id="com" class="col-md-10"><br>Posté le : '.$data['date'];
+					echo ' à '.$data['heure'];
+					echo '<br>'.$data['contenu'];
+					echo '<p id="envoyer">Fréquente '.$data['Salle'].'<p></div></div>';
+					if(isset($_SESSION['nom'])==($data['id_user'])){
+						if(($_SESSION['id_user'])){
+							echo '<form method="post"><input type="hidden" name="id_rep" value="'.$data['id_rep'].'"></input>';
+							echo '<p id="infos"><p id="envoyer">   
+							<input type="submit" class="btn btn-secondary" name="supp_rep" value="Supprimer"></input></p>
+							
+							</p></form>' ;
+						}
+						elseif($_SESSION['id_user']==1){
+							echo '<form method="post"><p id="envoyer">
+							<input type="hidden" name="id_rep" value="'.$data['id_rep'].'"></input>
+							<input type="submit" class="btn btn-secondary" name="supp_rep" value="Supprimer"></input>
+							</p></form>';
+							}
+						
+					}
+					}
+					
+			
+				
+			?>
+
+			
+			</div><br><br>
+			</div>
 			<div id="colD" class="col-md-3"><br><br>
-                <p id="lienD"><?php
+				<p id="lienD"><?php
 					if(isset($_SESSION['nom'])){
 							echo '<a id="lienD" href="Mon_profil.php">Mon profil   </a>';}
 						else{echo '<a id="lienD" href="Je_me_connecte.php">Mon profil   </a>';}
@@ -117,7 +152,7 @@ session_start();
 				<div class="col-md-4">
 					<h5 id="liste">VERCUCQUE JACQUES</h5>
 					<ul id="liste">
-						<li>jacquesvercucque@orange.fr</li>
+						<li>jacquesvercucque@orange.fr</a></li>
 						<li>Tel: 06 06 06 06 06</li>
 						<li>L2 Sorbonne université</li>
 					</ul>
@@ -130,10 +165,11 @@ session_start();
 						<li><?php 
 						if(isset($_SESSION['nom'])){echo '<a id="lienD" href="logout.php">Déconnexion</a>';}
 							else{echo '<a id="lienD" href="Je_me_connecte.php">Je me connecte</a>';}?></li>
+						
 					</l>
 				</div>
 				<div id="colD" class="col-md-3">
-				<br>
+					<br>
 					<img id="logo" src="images/Instagram_icon.png.webp" width="23" height="23" margin-right=1em><a href=""></a><a href="https://www.instagram.com/climb_2gether/">  Instagram</a>
 					<br><br>
 					<img id="logo" src="images/Logo_discord.png" width="25" height="25" margin-right=1em><a href=""></a><a href=""> Discord</a></div> 

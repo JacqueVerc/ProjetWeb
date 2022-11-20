@@ -41,16 +41,14 @@ session_start();
    	 <li class="nav-item">
    	   <a class="nav-link" href="Je_poste.php">Je poste</a>
   	  </li>
-		<?php
-	if(isset($_SESSION["nom"])){
-			echo ' <li class="nav-item"><a class="nav-link" href="logout.php">Déconnexion</a></li>';
-		}else echo '<li class="nav-item"><a class="nav-link" href="Je_me_connecte.php">Je me connecte</a></li>'
-	?>
+		
  	 </ul>
  	 <div>
- 	 	Messages
-   	 <a href="Mes_messages.php" class="btn btn-outline-dark"><i class="large material-icons">drafts</i>
-   	 </a>
+	  <?php
+	if(isset($_SESSION["nom"])){
+			echo ' <a class="nav-link" href="logout.php">Déconnexion <button class="btn"><i class="medium material-icons">logout</i></button></a>';
+		}else echo '<a class="nav-link" href="Je_me_connecte.php">Connexion<button class="btn"><i class="medium material-icons">login</i></button></a>'
+	?>
  	 </div>
 	</nav> 
 	
@@ -63,13 +61,15 @@ session_start();
 				include("connexion.php");
 					$res=mysqli_query($cn,"SELECT * from user,comments where user.id_user=comments.id_user order by id_com desc");
 					while($data=mysqli_fetch_assoc($res)){
-						echo '<div id="com" class="col-md-2">
-							<img src="images/'.$data['id_user'].'jpg" class="photo" width="50px" height="50px">';
+						echo '<div id="com" class="col-md-2">';
 						echo $data['Nom'];
-						echo '<br>'.$data['Prenom'].'</div>';
+						echo '<br>'.$data['Prenom'].'<br>'.$data['Niveau'].'</div>';
 						echo '<div id="com" class="col-md-10">Posté le : '.$data['date'];
 						echo ' à '.$data['heure'];
-						echo '<br>'.$data['contenu'].'</div>';
+						echo '<br>'.$data['contenu'].'<br><p id="envoyer">Fréquente '.$data['Salle'].'<p>
+						<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil</a></p><hr></div>';
+						;
+						
 					}
 					?>
 				</div>
