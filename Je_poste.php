@@ -99,7 +99,7 @@ session_start();
 							echo '<form method="post"><input type="hidden" name="id_com" value="'.$data['id_com'].'"></input>';
 							echo '<br>'.$data['contenu'].'<p id="envoyer"><a class="btn btn-outline-light"  href="Modifier_msg.php?id='.$data['id_com'].'">Modifier</a>   
 								<input type="submit" class="btn btn-secondary" name="supp_com" value="Supprimer"></input>
-								<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil</a></p></p></form></div>' ;
+								<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil de réponses</a></p></p></form></div>' ;
 							$nb=$nb+1;	
 							}
 							if($nb==0){
@@ -157,7 +157,7 @@ session_start();
 				<br>
 					<img id="logo" src="images/Instagram_icon.png.webp" width="23" height="23" margin-right=1em><a href=""></a><a href="https://www.instagram.com/climb_2gether/">  Instagram</a>
 					<br><br>
-					<img id="logo" src="images/Logo_discord.png" width="25" height="25" margin-right=1em><a href=""></a><a href=""> Discord</a></div>
+					<img id="logo" src="images/Logo_discord.png" width="25" height="25" margin-right=1em><a href="https://discord.gg/hvhHvUMev3"> Discord</a></div>
 			</div>
 		</div>
 	</footer>

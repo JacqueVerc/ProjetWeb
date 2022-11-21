@@ -87,6 +87,7 @@ session_start();
 					//suppression des messages//
 					if(isset($_POST['supp_com'])){
 						$id=$_POST['id_com'];
+						mysqli_query($cn,"DELETE FROM rep WHERE id_com='$id'");
 						mysqli_query($cn,"DELETE FROM comments WHERE id_com='$id'");
 					}
 					//Récupération des messages//
@@ -108,17 +109,16 @@ session_start();
 								echo '<p id="infos"><p id="envoyer"><a class="btn btn-outline-light"  href="Modifier_msg.php?id='.$data['id_com'].'">Modifier</a>   
 								<input type="submit" class="btn btn-secondary" name="supp_com" value="Supprimer"></input>
 								
-								</p><p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil</a></p></form>' ;
+								</p><p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil de réponses</a></p></form>' ;
 							}
 							elseif($_SESSION['id_user']==1){
 								echo '<form method="post"><p id="envoyer">
 								<input type="hidden" name="id_com" value="'.$data['id_com'].'"></input>
 								<input type="submit" class="btn btn-secondary" name="supp_com" value="Supprimer"></input>
-								<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil</a></p>
+								<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil de réponses</a></p>
 								</p></form>';
 								}
-							
-						}
+						}else{echo '<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil de réponses</a></p>';}
 						echo '</div>';
 					}
 					?><br>
@@ -205,7 +205,7 @@ session_start();
 					<br>
 					<img id="logo" src="images/Instagram_icon.png.webp" width="23" height="23" margin-right=1em><a href=""></a><a href="https://www.instagram.com/climb_2gether/">  Instagram</a>
 					<br><br>
-					<img id="logo" src="images/Logo_discord.png" width="25" height="25" margin-right=1em><a href=""></a><a href=""> Discord</a></div> 
+					<img id="logo" src="images/Logo_discord.png" width="25" height="25" margin-right=1em><a href="https://discord.gg/hvhHvUMev3"> Discord</a></div> 
 			</div>
 		</div>
 	</footer>

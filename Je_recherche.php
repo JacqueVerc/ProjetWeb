@@ -67,7 +67,7 @@ session_start();
 						echo '<div id="com" class="col-md-10">Posté le : '.$data['date'];
 						echo ' à '.$data['heure'];
 						echo '<br>'.$data['contenu'].'<br><p id="envoyer">Fréquente '.$data['Salle'].'<p>
-						<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil</a></p><hr></div>';
+						<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil de réponses</a></p><hr></div>';
 						;
 						
 					}
@@ -118,7 +118,7 @@ session_start();
 				<br>
 					<img id="logo" src="images/Instagram_icon.png.webp" width="23" height="23" margin-right=1em><a href=""></a><a href="https://www.instagram.com/climb_2gether/">  Instagram</a>
 					<br><br>
-					<img id="logo" src="images/Logo_discord.png" width="25" height="25" margin-right=1em><a href=""></a><a href=""> Discord</a></div> 
+					<img id="logo" src="images/Logo_discord.png" width="25" height="25" margin-right=1em><a href="https://discord.gg/hvhHvUMev3"> Discord</a></div> 
 			</div>
 		</div>
 	</footer>
