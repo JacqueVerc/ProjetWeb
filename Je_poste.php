@@ -26,7 +26,7 @@ session_start();
   <body id="fond3">
 	<!--Barre de recherche-->
 	<nav id="Haut" class="navbar navbar-expand">
-  	<a class="navbar-brand"><img id="logo" src="images/imgnoir.png" width="40" height="40" margin-right=1em>  Climb 2gether</a>
+  	<a class="navbar-brand"><img id="logo" src="images/icone_esc.jpg" width="40" height="40" margin-right=1em>  Climb 2gether</a>
   	<ul class="navbar-nav mr-auto">
   	  <li class="nav-item">
   	    <a class="nav-link" href="Site.php">Accueil</a>
@@ -72,7 +72,7 @@ session_start();
 						include("connexion.php");
 						if(isset($_POST["Submit"])){
 							$id=$_SESSION["id_user"];
-							$msg=$_POST["postemsg"];
+							$msg=str_replace("'", "’", $_POST["postemsg"]);
 							$date=date("Y-m-d");
 							$heure=date("H:i");
 							mysqli_query($cn,"insert into comments values (NULL,'$msg','$date','$heure','$id')");
@@ -90,8 +90,7 @@ session_start();
 						$res=mysqli_query($cn,"SELECT * from user,comments where user.id_user=comments.id_user order by id_com desc ");
 						while($data=mysqli_fetch_assoc($res)){
 							if($_SESSION['id_user']==$data['id_user']){
-							echo '<div id="com" class="col-md-2">
-								<img src="images/'.$data['id_user'].'.jpg" class="photo" width="50px" height="50px">';
+							echo '<div id="com" class="col-md-2">';
 							echo $data['Nom'];
 							echo '<br>'.$data['Prenom'].'</div>';
 							echo '<div id="com" class="col-md-10">Posté le : '.$data['date'];

@@ -27,7 +27,7 @@ session_start();
   <body id="fond">
 	<!--Barre de recherche-->
 	<nav id="Haut" class="navbar navbar-expand">
-  	<a class="navbar-brand"><img id="logo" src="images/imgnoir.png" width="40" height="40" margin-right=1em>  Climb 2gether</a>
+  	<a class="navbar-brand"><img id="logo" src="images/icone_esc.jpg" width="40" height="40" margin-right=1em>  Climb 2gether</a>
   	<ul class="navbar-nav mr-auto">
   	  <li class="nav-item">
   	    <a class="nav-link" href="Site.php">Accueil</a>

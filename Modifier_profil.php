@@ -30,7 +30,7 @@ session_start();
   <body id="fond4">
 	<!--Barre de recherche-->
 	<nav id="Haut" class="navbar navbar-expand">
-  	<a class="navbar-brand"><img id="logo" src="images/imgnoir.png" width="40" height="40" margin-right=1em>  Climb 2gether</a>
+  	<a class="navbar-brand"><img id="logo" src="images/icone_esc.jpg" width="40" height="40" margin-right=1em>  Climb 2gether</a>
   	<ul class="navbar-nav mr-auto">
   	  <li class="nav-item">
   	    <a class="nav-link" href="Site.php">Accueil</a>
@@ -77,6 +77,7 @@ session_start();
                                                 $mail=$_POST['mail'];
                                                 mysqli_query($cn,"UPDATE user SET addresse_mail='$mail' where id_user='$id' ");
                                                 echo '<strong>Adresse mail modifiée</strong><br><br>';
+												$_SESSION['mail']=$mail;
                                             }
                                         }
                                     }
@@ -116,8 +117,13 @@ session_start();
                                     }
                                     if(isset($_POST['supp_cpt'])){
                                         $id=$_SESSION['id_user'];
+										$res=mysqli_query($cn,"SELECT * from comments where id_user ='$id'");
 										mysqli_query($cn,"DELETE FROM rep WHERE id_user='$id'");
-										mysqli_query($cn,"DELETE FROM comments WHERE id_user='$id'");
+										while($data=mysqli_fetch_assoc($res)){
+										$id_com=$data['id_com'];
+										mysqli_query($cn,"DELETE FROM rep WHERE id_com='$id_com'");
+										}
+										mysqli_query($cn,"DELETE from comments where id_user ='$id'");
                                         mysqli_query($cn,"DELETE FROM user WHERE id_user='$id'");
                                         include("logout.php");
                                     }

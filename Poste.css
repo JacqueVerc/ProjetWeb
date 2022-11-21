@@ -61,8 +61,6 @@
 	width:50%;
   }
   
-  
-  
   /* active state */
   #la:focus ~ .highlight {
 	-webkit-animation:inputHighlighter 0.3s ease;

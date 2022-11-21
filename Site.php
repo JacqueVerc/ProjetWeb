@@ -27,7 +27,7 @@ session_start();
   <body id="fond">
 	<!--Barre de recherche-->
 	<nav id="Haut" class="navbar navbar-expand">
-  	<a class="navbar-brand" href="Site.php" id="lien"><img id="logo" src="images/imgnoir.png" width="40" height="40" margin-right=1em>  Climb 2gether</a>
+  	<a class="navbar-brand" href="Site.php" id="lien"><img id="logo" src="images/icone_esc.jpg" width="40" height="40" margin-right=1em>  Climb 2gether</a>
   	<ul class="navbar-nav mr-auto">
   	  <li class="nav-item">
   	    <a class="nav-link" href="Site.php">Accueil</a>
@@ -74,7 +74,7 @@ session_start();
 						include("connexion.php");
 						if(isset($_POST["Submit"]) && isset($_SESSION['nom'])){
 							$id=$_SESSION["id_user"];
-							$msg=$_POST["postemsg"];
+							$msg=str_replace("'", "’", $_POST["postemsg"]);
 							$date=date("Y-m-d");
 							$heure=date("H:i");
 							mysqli_query($cn,"insert into comments values (NULL,'$msg','$date','$heure','$id')");
@@ -94,6 +94,7 @@ session_start();
 					$res=mysqli_query($cn,"SELECT * from user,comments where user.id_user=comments.id_user order by id_com desc limit 5");
 					while($data=mysqli_fetch_assoc($res)){
 						echo '<div id="com" class="col-md-2"><br>';
+						$contenu= str_replace("'", "’", $data['contenu']);
 							
 						echo $data['Nom'];
 						echo '<br>'.$data['Prenom'].'<hr>'.$data['Niveau'].'</div>';
@@ -118,11 +119,14 @@ session_start();
 								<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil de réponses</a></p>
 								</p></form>';
 								}
+							else{
+								echo '<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil de réponses</a></p><hr>';
+							}
 						}else{echo '<p id="envoyer"><a class="btn btn-outline-light"  href="Réponses_postes.php?id='.$data['id_com'].'">Acceder au fil de réponses</a></p>';}
 						echo '</div>';
 					}
 					?><br>
-				</div><hr>
+				</div><br>
 				<p id="mini-titre">Annonces & Evènements:</p>
 				<div>
 				<?php
